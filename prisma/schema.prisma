@@ -1,0 +1,31 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model user{
+  id  String @id @default(uuid())
+  name String
+  github_id Int
+  avatar_url String
+  login String
+
+  @@map("users")
+  messages message[]
+
+}
+
+model message{
+  id  String @id @default(uuid())
+  texto String
+  create_atd DateTime @default(now())
+
+  user user @relation(fields: [user_id], references: [id])
+
+  @@map("messages")
+  user_id String
+}
